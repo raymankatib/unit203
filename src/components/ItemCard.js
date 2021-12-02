@@ -2,9 +2,14 @@ import React from 'react';
 import { Flex, Box, Image, Text } from '@chakra-ui/react';
 
 import { BLUE } from '../config/variables';
-export default function ItemCard({ item }) {
+export default function ItemCard({ items, item, setRenderItems }) {
+	const handelRemoveItem = (item) => {
+		const updatedList = items.filter((rItem) => rItem.id !== item.id);
+		setRenderItems(updatedList);
+	};
+
 	return (
-		<Flex m="10px" justifyContent="space-between">
+		<Flex m="10px" p="10" justifyContent="space-between">
 			<Flex>
 				<Box>
 					<Image w="auto" h="300px" src={item.image} alt={item.title} />
@@ -38,7 +43,7 @@ export default function ItemCard({ item }) {
 						Dec 2 - Dec 15
 					</Text>
 				</Flex>
-				<Text cursor="pointer" textDecor="underline">
+				<Text onClick={() => handelRemoveItem(item)} cursor="pointer" textDecor="underline">
 					Remove
 				</Text>
 			</Box>
