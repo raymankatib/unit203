@@ -1,13 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Heading, Button } from '@chakra-ui/react';
+import axios from 'axios';
 
 import ItemCard from './ItemCard';
 import TotalComponent from './TotalComponent';
-import { lineItems, BLUE } from '../config/variables';
+import { BLUE } from '../config/variables';
 
 export default function Cart() {
-	console.log(lineItems);
-	const [renderItems, setRenderItems] = useState(lineItems);
+	const [renderItems, setRenderItems] = useState([]);
+	const fetchITems = async () => {
+		try {
+			const { data: allItems } = await axios.get('http://localhost:4001/allItems');
+			setRenderItems(allItems);
+			return allItems;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchITems();
+	}, []);
 
 	const handelAddItem = () => {
 		setRenderItems([
